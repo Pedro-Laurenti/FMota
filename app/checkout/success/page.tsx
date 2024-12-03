@@ -45,17 +45,13 @@ export default function Sucesso() {
     }
 
     fetchData();
-  }, [searchParams]); // Remove o acesso direto a propriedades, usa apenas o hook
+  }, [searchParams]);
 
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>Erro: {error}</p>;
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div>
-
-      </div>
-
       <Card isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-7">
         <CardHeader className="flex flex-col items-start bg-black/50 backdrop-blur-lg">
           <p className="text-tiny text-white/60 uppercase font-bold">Dados confirmados</p>
@@ -71,11 +67,11 @@ export default function Sucesso() {
           </Code>
         </CardBody>
         <CardFooter className="bg-black/40 border-t-1 border-default-600 dark:border-default-100">
-        <Link className="w-full flex items-center justify-center" href="/dashboard">
-          <Button className="w-fit" color="success">
-            Continuar para o Dashboard
-          </Button>
-        </Link>
+          <Link className="w-full flex items-center justify-center" href="/dashboard">
+            <Button className="w-fit" color="success">
+              Continuar para o Dashboard
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </div>
