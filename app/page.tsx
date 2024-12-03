@@ -93,6 +93,7 @@ export default function Home() {
             <li>Plataforma para networking e colaboração </li>
             <li>Conteúdo premium exclusivo </li>
             <li>Encontros semanais agendados </li>
+            <li>Acesso vitalício à plataforma e ao grupo </li>
           </ul>
           <Link href="/checkout" className="w-full max-w-96 mt-10">
             <Button size="lg" color="primary" className="w-full font-black uppercase">Adquira agora</Button>

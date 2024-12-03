@@ -107,7 +107,7 @@ export default function Checkout() {
             </CardFooter>
           </Card>
         ) : (
-          <Card isFooterBlurred className="w-full">
+          <Card isFooterBlurred className="w-full h-full min-h-96">
             <CardHeader className="absolute z-10 flex-col items-start bg-black/50 backdrop-blur-lg border-b-1 border-default-600 dark:border-default-100">
               <p className="text-tiny text-white/60 uppercase font-bold">Tudo pronto? </p>
               <h4 className="text-white/90 font-medium text-xl">Faça parte do Sucesso!</h4>
@@ -116,7 +116,7 @@ export default function Checkout() {
               removeWrapper
               alt="Relaxing app background"
               className="z-0 w-full h-full object-cover"
-              src="/covertemplate.jpeg"
+              src="relative/covertemplate.jpeg"
             />
             <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100">
               <StripeSubs

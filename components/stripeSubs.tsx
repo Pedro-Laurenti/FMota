@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button, Input, Checkbox } from "@nextui-org/react"; // Importação do Checkbox
+import { useState, useEffect } from "react";
+import { Button, Input, Checkbox } from "@nextui-org/react";
 import Cookies from "js-cookie";
 import { loadStripe } from "@stripe/stripe-js"; // Importação correta
 
@@ -8,6 +8,16 @@ export default function StripePayment({ priceId, price }: { priceId: string; pri
   const [error, setError] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState<string>("");
   const [hasCoupon, setHasCoupon] = useState<boolean>(false); // Estado para controlar a checkbox
+
+  // Efeito para verificar a URL e preencher o campo de cupom automaticamente
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const couponFromUrl = urlParams.get("coupon");
+    if (couponFromUrl) {
+      setCouponCode(couponFromUrl);
+      setHasCoupon(true); // Marcar como verdadeiro, caso o cupom seja passado
+    }
+  }, []);
 
   const handlePayment = async () => {
     setLoading(true);
@@ -65,7 +75,7 @@ export default function StripePayment({ priceId, price }: { priceId: string; pri
               placeholder="Código do cupom"
               value={couponCode}
               onChange={(e) => setCouponCode(e.target.value)}
-              />
+            />
           </div>
         )}
       </div>

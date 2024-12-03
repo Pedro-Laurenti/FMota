@@ -21,13 +21,12 @@ const fetchContentDetails = async (moduleId: string, contentId: string): Promise
 export default function ContentPage() {
   const [content, setContent] = useState<Content | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isClient, setIsClient] = useState(false); // Estado para verificar se está no client
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true); // Garantir que a renderização está acontecendo no client
   }, []);
 
-  // A partir daqui, use o router apenas quando o componente estiver renderizado no client
   const params = useParams();
   const { moduleId, contentId } = params;
 
@@ -35,7 +34,7 @@ export default function ContentPage() {
     if (isClient && moduleId && contentId) {
       const loadContentDetails = async () => {
         try {
-          const data = await fetchContentDetails(moduleId as string, contentId as string);
+          const data = await fetchContentDetails(String(moduleId), String(contentId));
           setContent(data);
         } catch (error) {
           console.error("Erro ao carregar o conteúdo:", error);

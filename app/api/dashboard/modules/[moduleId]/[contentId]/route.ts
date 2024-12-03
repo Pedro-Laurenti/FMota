@@ -1,31 +1,31 @@
 import createConnection from "@/config/connection";
 import { NextRequest } from "next/server";
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const moduleId = searchParams.get("moduleId");
-  const contentId = searchParams.get("contentId");
+export async function GET(req: NextRequest, context: { params: { moduleId: string, contentId: string } }) {
+  // Acesse os parâmetros de forma assíncrona
+  const { moduleId, contentId } = await context.params;
 
+  // Verifique se os parâmetros são válidos
   if (!moduleId || !contentId) {
     return new Response("Parâmetros inválidos", { status: 400 });
   }
+
+  console.log('Module ID:', moduleId);
+  console.log('Content ID:', contentId);
 
   try {
     // Conectar ao banco de dados
     const connection = await createConnection();
 
-    // Buscar o conteúdo específico pelo moduleId e contentId
     const [rows]: any = await connection.execute(
       `SELECT c.title, c.description, c.type, 
-              IFNULL(c.rich_text, '') AS rich_text, 
-              IFNULL(c.video_url, '') AS video_url, 
-              IFNULL(c.file_download, '') AS file_download
+        IFNULL(c.rich_text, '') AS rich_text, 
+        IFNULL(c.video_url, '') AS video_url, 
+        IFNULL(c.file_download, '') AS file_download
        FROM contents c
        WHERE c.module_id = ? AND c.id = ?`,
       [moduleId, contentId]
     );
-
-    console.log("Dados retornados do banco:", rows); // Log para verificar os dados
 
     if (rows.length === 0) {
       return new Response("Conteúdo não encontrado", { status: 404 });
