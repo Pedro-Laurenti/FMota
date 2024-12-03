@@ -72,6 +72,7 @@ export default function ContentPage() {
               <video controls width="100%">
                 <source src={content.video_url} type="video/mp4" />
                 Seu navegador não suporta o formato de vídeo.
+                <track kind="captions" />
               </video>
             </div>
           )}
@@ -82,8 +83,6 @@ export default function ContentPage() {
               </a>
             </div>
           )}
-
-
         </CardBody>
         <CardFooter>
           <button onClick={() => alert('Ação de interação com o conteúdo')}>
