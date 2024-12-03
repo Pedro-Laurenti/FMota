@@ -1,7 +1,14 @@
 import createConnection from "@/config/connection";
+import { NextRequest } from "next/server";
 
-export async function GET(req: Request, { params }: { params: { moduleId: string; contentId: string } }) {
-  const { moduleId, contentId } = params;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const moduleId = searchParams.get("moduleId");
+  const contentId = searchParams.get("contentId");
+
+  if (!moduleId || !contentId) {
+    return new Response("Parâmetros inválidos", { status: 400 });
+  }
 
   try {
     // Conectar ao banco de dados
@@ -17,7 +24,6 @@ export async function GET(req: Request, { params }: { params: { moduleId: string
        WHERE c.module_id = ? AND c.id = ?`,
       [moduleId, contentId]
     );
-    
 
     console.log("Dados retornados do banco:", rows); // Log para verificar os dados
 
