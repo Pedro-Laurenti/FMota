@@ -13,7 +13,7 @@ interface Content {
 }
 
 const fetchContentDetails = async (moduleId: string, contentId: string): Promise<Content> => {
-  const response = await fetch(`/api/dashboard/modules/${moduleId}/${contentId}`);
+  const response = await fetch(`/api/dashboard/modules/content?moduleId=${moduleId}&contentId=${contentId}`);
   if (!response.ok) throw new Error("Erro ao carregar o conteúdo");
   return await response.json();
 };
@@ -21,17 +21,12 @@ const fetchContentDetails = async (moduleId: string, contentId: string): Promise
 export default function ContentPage() {
   const [content, setContent] = useState<Content | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true); // Garantir que a renderização está acontecendo no client
-  }, []);
 
   const params = useParams();
   const { moduleId, contentId } = params;
 
   useEffect(() => {
-    if (isClient && moduleId && contentId) {
+    if (moduleId && contentId) {
       const loadContentDetails = async () => {
         try {
           const data = await fetchContentDetails(String(moduleId), String(contentId));
@@ -44,7 +39,7 @@ export default function ContentPage() {
       };
       loadContentDetails();
     }
-  }, [isClient, moduleId, contentId]);
+  }, [moduleId, contentId]);
 
   if (loading) {
     return <p>Carregando conteúdo...</p>;
