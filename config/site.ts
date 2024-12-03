@@ -1,8 +1,8 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Filipe Mota",
-  description: "Mentoria Integração Transdisciplinar",
+  name: "Integração Transdisciplinar",
+  description: "Mentoria Integração Transdisciplinar com Felipe Mota",
   navItems: [
     {
       label: "Início",

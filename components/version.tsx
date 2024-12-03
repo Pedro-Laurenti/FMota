@@ -14,7 +14,7 @@ export const VersionToggle = () => {
 
   return (
     <div
-      className="absolute bottom-5 left-5 flex flex-row items-center p-1 rounded-full dark:bg-black/30 bg-white/10 "
+      className="fixed bottom-5 left-5 flex flex-row items-center p-1 rounded-full dark:bg-black/30 bg-white/10 "
       onMouseEnter={handleMenuToggle}
       onMouseLeave={handleMenuToggle}
     >

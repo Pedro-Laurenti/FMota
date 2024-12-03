@@ -6,6 +6,7 @@ import { NavbarCheckout, NavbarLogin, NavbarDash } from "@/components/navbar";
 import { Link } from "@nextui-org/react";
 import { siteConfig } from "@/config/site";
 import { IoLogoInstagram, IoLogoTwitch, IoLogoWhatsapp, IoLogoYoutube } from "react-icons/io5";
+import { Footer } from "@/components/footer";
 
 export function LayoutLogoff({
   children,
@@ -13,28 +14,12 @@ export function LayoutLogoff({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col">
       <NavbarLogin />
-      <div className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
+      <div className="flex-grow">
         {children}
       </div>
-      <div className="w-full flex items-center justify-around py-3">
-        <NextLink className="flex justify-start items-center gap-1" href="/">
-          <Logo size={20} className="mr-2" />
-          <p className="font-bold text-xs text-content1-foreground">Mentoria Integração Transdiciplinar</p>
-        </NextLink>
-        <div className="flex gap-2">
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.youtube}>
-            <IoLogoYoutube className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.whatsapp}>
-            <IoLogoWhatsapp className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.whatsapp}>
-            <IoLogoInstagram className="text-default-500" />
-          </Link>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }
@@ -50,23 +35,7 @@ export function LayoutCheckout({
       <div className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
         {children}
       </div>
-      <div className="w-full flex items-center justify-around py-3">
-        <NextLink className="flex justify-start items-center gap-1" href="/">
-          <Logo size={20} className="mr-2" />
-          <p className="font-bold text-xs text-content1-foreground">Mentoria Integração Transdiciplinar</p>
-        </NextLink>
-        <div className="flex gap-2">
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.youtube}>
-            <IoLogoYoutube className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.whatsapp}>
-            <IoLogoWhatsapp className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.whatsapp}>
-            <IoLogoInstagram className="text-default-500" />
-          </Link>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }
@@ -82,23 +51,7 @@ export function LayoutDash({
       <div className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
         {children}
       </div>
-      <div className="w-full flex items-center justify-around py-3">
-        <NextLink className="flex justify-start items-center gap-1" href="/">
-          <Logo size={20} className="mr-2" />
-          <p className="font-bold text-xs text-content1-foreground">Mentoria Integração Transdiciplinar</p>
-        </NextLink>
-        <div className="flex gap-2">
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.youtube}>
-            <IoLogoYoutube className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.whatsapp}>
-            <IoLogoWhatsapp className="text-default-500" />
-          </Link>
-          <Link isExternal aria-label="Twitter" href={siteConfig.links.whatsapp}>
-            <IoLogoInstagram className="text-default-500" />
-          </Link>
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 }
