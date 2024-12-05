@@ -39,10 +39,10 @@ export async function GET(req: NextRequest) {
       return new Response("Módulo não encontrado", { status: 404 });
     }
 
-    const module = rows[0];
-    await setCache(cacheKey, JSON.stringify(module));
+    const modulo = rows[0];
+    await setCache(cacheKey, JSON.stringify(modulo));
 
-    return new Response(JSON.stringify(module), {
+    return new Response(JSON.stringify(modulo), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
