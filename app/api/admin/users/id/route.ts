@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import getConnection from "@/config/connection";
-import { setCache, getCache } from "@/config/cache"; // Funções de cache para IndexedDB
+import { setCache, getCache, deleteCache } from "@/config/cache"; // Funções de cache para IndexedDB
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -80,9 +80,8 @@ export async function PUT(req: NextRequest) {
     );
 
     // Limpar o cache após a atualização
-    const cacheKey = `user_${userId}`;
-    await setCache(cacheKey, JSON.stringify({ nome, email, tipo_usuario, numero_contato, data_criacao }));
-
+    deleteCache(`users_page_*`)
+    
     if (result.affectedRows === 0) {
       return new Response("Usuário não encontrado ou não atualizado", { status: 404 });
     }

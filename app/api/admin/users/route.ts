@@ -129,14 +129,15 @@ export async function POST(req: NextRequest) {
        VALUES (?, ?, ?)`,
       [userId, token, expirationDate]
     );
-
+    
+    const resetLink = `${process.env.NEXT_BASE_URL}/signin/reset-password?token=${token}`;
     const newUser = {
       id: userId,
       nome,
       email,
       tipo_usuario,
       numero_contato,
-      token, // Retorna o token gerado
+      resetLink, // Retorna o token gerado
       expiration: expirationDate,
     };
 

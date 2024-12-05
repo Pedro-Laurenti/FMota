@@ -12,7 +12,6 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  useModal,
   ModalContent,
   ModalHeader,
 } from "@nextui-org/react";
@@ -49,7 +48,7 @@ export default function NovoAluno() {
 
       if (response.ok) {
         const data = await response.json();
-        const link = `${process.env.NEXT_BASE_URL}/signin/reset-password?token=${data.token}`;
+        const link = `${data.resetLink}`;
         setTokenLink(link);
         setIsTokenModalOpen(true);
       } else {

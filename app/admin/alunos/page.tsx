@@ -101,11 +101,11 @@ export default function AdvancedTable() {
         },
         body: JSON.stringify({ userId }),
       });
-  
+
       if (!response.ok) {
         throw new Error("Falha ao gerar o link de redefinição de senha.");
       }
-  
+
       const data = await response.json();
       setResetLink(data.link); // Salva o link gerado
       setIsResetLinkModalOpen(true); // Abre o modal
@@ -113,6 +113,7 @@ export default function AdvancedTable() {
       setError((error as Error).message);
     }
   };
+
 
   const confirmDelete = async () => {
     if (userIdToDelete !== null) {

@@ -14,10 +14,18 @@ export const setCache = (key: string, value: any) => {
 };
 
 export const deleteCache = (key: string) => {
-  if (cache.hasOwnProperty(key)) {
+  const isWildcard = key.endsWith('*');
+  if (isWildcard) {
+    const prefix = key.slice(0, -1); // Remove o '*'
+    for (const cacheKey in cache) {
+      if (cacheKey.startsWith(prefix)) {
+        delete cache[cacheKey];
+      }
+    }
+  } else if (cache.hasOwnProperty(key)) {
     delete cache[key];
   }
-}
+};
 
 // Função para verificar se os dados estão no cache ou retornar do banco de dados
 export const getOrSetCache = async (key: string, fetchData: () => Promise<any>) => {

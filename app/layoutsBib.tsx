@@ -5,6 +5,7 @@ import { Button } from "@nextui-org/react";
 import { IoMenu } from "react-icons/io5";
 import { Footer, FooterAdmin } from "@/components/footer";
 import { useEffect, useState } from "react";
+import { VersionToggle } from "@/components/version";
 
 export function LayoutLogoff({
   children,
@@ -17,6 +18,7 @@ export function LayoutLogoff({
       <div className="flex-grow">
         {children}
       </div>
+      <VersionToggle />
       <Footer />
     </div>
   );
@@ -33,6 +35,7 @@ export function LayoutCheckout({
       <div className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
         {children}
       </div>
+      <VersionToggle />
       <Footer />
     </div>
   );
@@ -49,6 +52,7 @@ export function LayoutDash({
       <div className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
         {children}
       </div>
+      <VersionToggle />
       <Footer />
     </div>
   );
