@@ -1,7 +1,8 @@
 import bcrypt from "bcrypt";
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
 import jwt from "jsonwebtoken";
 import Stripe from "stripe";
+import { getOrSetCache } from "@/config/cache";  // Importando a função de cache
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-11-20.acacia",
@@ -26,17 +27,22 @@ export async function POST(req: Request) {
 
   const hashedPassword = await bcrypt.hash(senha, 10);
 
-  let connection;
+  let connection: any;
   try {
-    connection = await createConnection();
+    connection = await getConnection();
 
-    // Verifica se o email já está cadastrado
-    const [rows]: any = await connection.execute(
-      `SELECT id FROM usuarios WHERE email = ?`,
-      [email],
-    );
+    // Verifica se o email já está cadastrado, usando cache
+    const cacheKey = `email_check_${email}`;
+    const cachedEmail = await getOrSetCache(cacheKey, async () => {
+      // Consulta ao banco de dados para verificar se o email já existe
+      const [rows]: any = await connection.execute(
+        `SELECT id FROM usuarios WHERE email = ?`,
+        [email],
+      );
+      return rows.length > 0 ? "existente" : "disponível";
+    });
 
-    if (Array.isArray(rows) && rows.length > 0) {
+    if (cachedEmail === "existente") {
       return new Response(
         JSON.stringify({ error: "Este email já está em uso" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -75,6 +81,12 @@ export async function POST(req: Request) {
       expiresIn: "1h",
     });
 
+    // Armazena o token na blacklist do cache, simulando a funcionalidade de Redis
+    const blacklistKey = `blacklist_${token}`;
+    await getOrSetCache(blacklistKey, async () => {
+      return "1";  // Marca o token como inválido
+    });  // Expira em 1 hora
+
     // Criando os cabeçalhos e configurando os cookies
     const headers = new Headers({
       "Content-Type": "application/json",
@@ -103,7 +115,7 @@ export async function POST(req: Request) {
     );
   } finally {
     if (connection) {
-      await connection.end();
+      await connection.release();
     }
   }
 }

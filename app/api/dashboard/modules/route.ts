@@ -1,9 +1,22 @@
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
+import { setCache, getCache } from "@/config/cache"; // Funções de cache para IndexedDB ou alternativas
 
 export async function GET(req: Request) {
   try {
+    // Verificar no cache local se a lista de módulos e conteúdos já está em cache
+    const cacheKey = "modules_and_contents";
+    const cachedModules = await getCache(cacheKey);
+
+    if (cachedModules) {
+      // Se os dados estiverem no cache, retorna diretamente
+      return new Response(cachedModules, {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     // Conectar ao banco de dados
-    const connection = await createConnection();
+    const connection = await getConnection();
 
     // Buscar todos os módulos com seus respectivos conteúdos
     const [modulesRows]: any = await connection.execute(
@@ -41,6 +54,9 @@ export async function GET(req: Request) {
 
     // Adiciona o último módulo, se houver
     if (currentModule) modules.push(currentModule);
+
+    // Armazenar os dados no cache local por 1 hora (3600 segundos)
+    await setCache(cacheKey, JSON.stringify(modules)); // Cache expirando em 1 hora
 
     return new Response(JSON.stringify(modules), {
       status: 200,

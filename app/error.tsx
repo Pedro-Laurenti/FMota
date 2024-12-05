@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@nextui-org/react";
 import { useEffect } from "react";
 
 export default function Error({
@@ -16,16 +17,18 @@ export default function Error({
 	}, [error]);
 
 	return (
-		<div>
-			<h2>Ops!</h2>
-			<button
+		<div className="w-screen h-screen flex flex-col justify-center items-center">
+			<h2 className="text-2xl text-warning">Ops!</h2>
+      <p className="text-lg mb-2">Ocorreu um erro ao carregar o conteúdo.</p>
+			<Button
+        color="warning"
 				onClick={
 					// Attempt to recover by trying to re-render the segment
 					() => reset()
 				}
 			>
         Recarregar
-      </button>
+      </Button>
 		</div>
 	);
 }

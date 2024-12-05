@@ -1,3 +1,4 @@
+import { Spinner } from "@nextui-org/react";
 import React, { Suspense } from "react";
 
 export default function Page({
@@ -6,7 +7,7 @@ export default function Page({
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={<p>Carregando...</p>}>
+    <Suspense fallback={<Spinner />}>
       {children}
     </Suspense>
   );

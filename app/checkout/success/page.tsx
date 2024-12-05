@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Card, CardHeader, CardFooter, Button, Image, CardBody, Link, Code } from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Button, Image, CardBody, Link, Code, Spinner } from "@nextui-org/react";
 
 export default function Sucesso() {
   const searchParams = useSearchParams(); // Hook para acessar os parâmetros de consulta dinamicamente
@@ -47,7 +47,7 @@ export default function Sucesso() {
     fetchData();
   }, [searchParams]);
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading) return <Spinner />;
   if (error) return <p>Erro: {error}</p>;
 
   return (

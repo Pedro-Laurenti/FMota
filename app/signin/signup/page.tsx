@@ -10,6 +10,7 @@ import {
   Divider,
   Input,
   Link,
+  Spinner,
 } from "@nextui-org/react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 
@@ -185,7 +186,7 @@ export default function SignupPage() {
               variant="bordered"
             />
             <Button type="submit" disabled={loading} color="primary" fullWidth>
-              {loading ? "Carregando..." : "Criar Conta"}
+              {loading ? <Spinner /> : "Criar Conta"}
             </Button>
           </form>
           <Divider className="my-8" />

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import StripeSubs from "@/components/stripeSubs";
-import { Card, CardHeader, CardFooter, Button, Image, CardBody } from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Button, Image, CardBody, Spinner } from "@nextui-org/react";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 export default function Checkout() {
   const [isPaymentActive, setIsPaymentActive] = useState(false); // Estado para controlar o pagamento ativo
@@ -86,7 +87,7 @@ export default function Checkout() {
     checkPaymentStatus();
   }, []);
 
-  if (loading) return <p>Carregando...</p>;
+  if (loading) return <Spinner />;
 
   return (
     <div className="flex justify-center gap-4">
@@ -101,9 +102,11 @@ export default function Checkout() {
               <p className="">Agora você é um membro ativo.</p>
             </CardBody>
             <CardFooter>
-              <Button color="success" href="/dashboard" className="w-full">
-                Continuar
-              </Button>
+              <Link href="/dashboard">
+                <Button color="success" href="/dashboard" className="w-full">
+                  Continuar
+                </Button>
+              </Link>
             </CardFooter>
           </Card>
         ) : (

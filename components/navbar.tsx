@@ -8,14 +8,12 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/navbar";
 import { Link } from "@nextui-org/link";
-import { link as linkStyles } from "@nextui-org/theme";
 import NextLink from "next/link";
-import clsx from "clsx";
-import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
-import { IoClose, IoMenu, IoLogOut, IoEnter, IoPerson, IoHome } from "react-icons/io5";
+import { IoClose, IoMenu, IoLogOut, IoPerson, IoHome, IoSettings, IoExit } from "react-icons/io5";
 import { useEffect, useState } from "react";
+import { MdOutlineExitToApp } from "react-icons/md";
 
 export const NavbarLogin = () => {
 
@@ -62,7 +60,7 @@ export const NavbarLogin = () => {
               </Link>
             </NavbarMenuItem>
 
-            <NavbarMenuItem key="1">
+            <NavbarMenuItem key="2">
               <Link
                 color="primary"
                 href="/signin"
@@ -144,7 +142,7 @@ export const NavbarCheckout = () => {
   );
 };
 
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, Button } from "@nextui-org/react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, Button, DropdownSection } from "@nextui-org/react";
 
 export const NavbarDash = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -264,5 +262,106 @@ export const NavbarDash = () => {
         </p>
       </NavbarMenu>
     </NextUINavbar>
+  );
+};
+
+export const NavbarAdmin = () => {
+  const [user, setUser] = useState<{ nome: string; email: string } | null>(null);
+
+  const handleExit = async () => {
+    try {
+      const response = await fetch("/api/auth/signout", { method: "POST" });
+
+      if (response.ok) {
+        window.location.href = "/"; // Redireciona para a página inicial
+      } else {
+        console.error("Erro ao realizar logout");
+      }
+    } catch (error) {
+      console.error("Erro ao desconectar:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("/api/dashboard/user", { method: "GET" });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.error("Erro ao buscar dados do usuário");
+        }
+      } catch (error) {
+        console.error("Erro ao carregar informações do usuário:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  return (
+    <div className="h-full flex flex-col justify-between">
+      <div className="p-4">
+        <h2 className="text-lg font-bold">Admin</h2>
+        <nav className="space-y-2 mt-4">
+          <Link className="block text-primary" href="/admin">
+            Início
+          </Link>
+          <Link
+            className="block text-primary"
+            href="/admin/alunos"
+          >
+            Alunos
+          </Link>
+          <Link
+            className="block text-primary"
+            href="/admin/modulos"
+          >
+            Módulos
+          </Link>
+          <Link
+            className="block text-primary"
+            href="/admin/conteudos"
+          >
+            Conteúdos
+          </Link>
+        </nav>
+      </div>
+      <div className="p-4 border-t border-default-200">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            {user ? user.nome : "Usuário"}
+            <p className="text-xs text-default-400">
+              {user ? user.email : "Carregando..."}
+            </p>
+          </div>
+          <Dropdown placement="right-end">
+            <DropdownTrigger>
+              <Button isIconOnly size="sm" variant="light">
+                <IoSettings />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="User Actions" variant="flat">
+              <DropdownItem isReadOnly key="profile" className="h-14 gap-2">
+                <p className="font-bold">Logado como</p>
+                <p className="font-bold">{user ? user.email : "Carregando..."}</p>
+              </DropdownItem>
+              <DropdownItem isReadOnly>
+                <div className="flex items-center justify-around">
+                  <Button isIconOnly size="sm" variant="light">
+                    <ThemeSwitch />
+                  </Button>
+                  <Button onClick={handleExit} isIconOnly size="sm" variant="light">
+                    <MdOutlineExitToApp className="text-xl text-danger" />
+                  </Button>
+                </div>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </div>
+    </div>
   );
 };

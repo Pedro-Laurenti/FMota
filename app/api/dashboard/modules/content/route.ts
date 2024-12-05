@@ -1,5 +1,6 @@
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
 import { NextRequest } from "next/server";
+import { setCache, getCache } from "@/config/cache"; // Funções de cache para IndexedDB
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -11,8 +12,20 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    // Verificar se os dados estão no cache
+    const cacheKey = `content_${moduleId}_${contentId}`;
+    const cachedContent = await getCache(cacheKey);
+
+    if (cachedContent) {
+      console.log(`Conteúdo encontrado no cache para moduleId: ${moduleId}, contentId: ${contentId}`);
+      return new Response(cachedContent, {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
     // Conectar ao banco de dados
-    const connection = await createConnection();
+    const connection = await getConnection();
 
     const [rows]: any = await connection.execute(
       `SELECT c.title, c.description, c.type, 
@@ -29,6 +42,9 @@ export async function GET(req: NextRequest) {
     }
 
     const content = rows[0];
+
+    // Armazenar os dados no cache
+    await setCache(cacheKey, JSON.stringify(content));
 
     return new Response(JSON.stringify(content), {
       status: 200,

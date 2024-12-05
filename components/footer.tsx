@@ -3,6 +3,7 @@ import { Logo } from "@/components/icons";
 import { Link } from "@nextui-org/react";
 import { IoLogoInstagram, IoLogoTwitch, IoLogoWhatsapp, IoLogoYoutube } from "react-icons/io5";
 import { siteConfig } from "@/config/site";
+import config from '../package.json';
 
 export function Footer() {
   return (
@@ -31,3 +32,20 @@ export function Footer() {
     </footer>
   );
 }
+
+
+export function FooterAdmin() {
+  return (
+    <footer className="w-full py-2 border-t border-default-300">
+      <div className="container mx-auto max-w-7xl flex flex-col md:flex-row justify-between items-center gap-4">
+        <p className="text-xs text-default-500 text-center">
+          © {new Date().getFullYear()} Mentoria Integração Transdisciplinar. Todos os direitos reservados.
+        </p>
+        <p className="text-xs text-default-500 text-center">
+          v. {config.version}
+        </p>
+      </div>
+    </footer>
+  );
+}
+

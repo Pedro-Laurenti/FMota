@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Card, CardHeader, CardBody, CardFooter, Divider } from '@nextui-org/react';
+import { Card, CardHeader, CardBody, CardFooter, Divider, Spinner } from '@nextui-org/react';
 
 interface Content {
   title: string;
@@ -42,7 +42,7 @@ export default function ContentPage() {
   }, [moduleId, contentId]);
 
   if (loading) {
-    return <p>Carregando conteúdo...</p>;
+    return <Spinner />;
   }
 
   if (!content) {

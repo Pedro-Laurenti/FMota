@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { LayoutDash } from "../layoutsBib";
 import Countdown from "@/components/Countdown";
 import { MenuToggle } from "@/components/menutogle"; // Importa o novo componente MenuToggle
+import { Spinner } from "@nextui-org/react";
 
 // Data de lançamento para o contador
 const releaseDate = new Date(Date.UTC(2024, 9, 18));
@@ -83,7 +84,7 @@ export default function DashboardLayout({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p>Carregando...</p>
+        <Spinner />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
+import { setCache, getCache } from "@/config/cache"; // Importando as funções de cache para IndexedDB
 
 export async function POST(req: Request) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -28,9 +29,19 @@ export async function POST(req: Request) {
       const valor = session.amount_total! / 100; // Valor em reais
       const stripePaymentId = session.id;
 
+      // Verifica se o pagamento já foi processado usando IndexedDB
+      const paymentProcessed = await getCache(`payment_status_${stripePaymentId}`);
+      if (paymentProcessed) {
+        // Evita processamento duplicado
+        return NextResponse.json({ message: "Pagamento já processado." }, { status: 200 });
+      }
+
+      // Marca o pagamento como processado no IndexedDB
+      await setCache(`payment_status_${stripePaymentId}`, "processed");
+
       let connection;
       try {
-        connection = await createConnection();
+        connection = await getConnection();
 
         if (usuarioId && stripePaymentId) {
           if (session.payment_status === "paid") {
@@ -59,7 +70,7 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Erro ao acessar o banco de dados." }, { status: 500 });
       } finally {
         if (connection) {
-          await connection.end();
+          await connection.release();
         }
       }
     }

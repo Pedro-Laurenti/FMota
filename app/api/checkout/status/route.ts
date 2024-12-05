@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
+import { getCache } from "@/config/cache";  // Importando a função de cache
 
 export async function GET(req: NextRequest) {
   const cookies = req.headers.get("cookie") || "";
@@ -19,12 +20,22 @@ export async function GET(req: NextRequest) {
       throw new Error("TOKEN_SECRET_KEY não está definido");
     }
 
+    // Verifica se o token foi revogado usando IndexedDB (cache)
+    const isTokenBlacklisted = await getCache(`blacklist_${authToken}`);
+    if (isTokenBlacklisted) {
+      return new NextResponse(
+        JSON.stringify({ error: "Token revogado" }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Verifica e decodifica o token JWT
     const decoded: any = jwt.verify(authToken, secretKey);
     const userId = decoded.id;
 
     let connection;
     try {
-      connection = await createConnection();
+      connection = await getConnection();
       const [rows]: any = await connection.execute(
         `SELECT status FROM assinaturas WHERE usuario_id = ? ORDER BY data_criacao DESC LIMIT 1`,
         [userId]
@@ -43,7 +54,7 @@ export async function GET(req: NextRequest) {
       );
     } finally {
       if (connection) {
-        await connection.end();
+        await connection.release();
       }
     }
   } catch (error) {

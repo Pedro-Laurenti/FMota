@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
+import { getOrSetCache } from "@/config/cache"; // Função global de cache que usaremos
 
 export async function POST(req: Request) {
   const { email, senha } = await req.json();
@@ -12,9 +13,22 @@ export async function POST(req: Request) {
     );
   }
 
-  let connection;
+  const cacheKey = `login_attempts_${email}`;
+
   try {
-    connection = await createConnection();
+    // Limitação de tentativas de login usando cache local
+    const attempts = await getOrSetCache(cacheKey, async () => {
+      return 0; // Caso não exista, retorna 0 tentativas
+    });
+
+    if (attempts >= 5) {
+      return new Response(
+        JSON.stringify({ error: "Muitas tentativas de login. Aguarde alguns minutos." }),
+        { status: 429, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    const connection = await getConnection();
 
     // Consulta para buscar usuário pelo email
     const [rows]: any = await connection.execute(
@@ -23,6 +37,11 @@ export async function POST(req: Request) {
     );
 
     if (!Array.isArray(rows) || rows.length === 0) {
+      // Incrementa as tentativas no cache e define o tempo de expiração
+      await getOrSetCache(cacheKey, async () => {
+        return attempts + 1;
+      });
+
       return new Response(
         JSON.stringify({ error: "Usuário não encontrado" }),
         { status: 404, headers: { "Content-Type": "application/json" } },
@@ -35,6 +54,11 @@ export async function POST(req: Request) {
     const isValidPassword = await bcrypt.compare(senha, user.senha_hash);
 
     if (!isValidPassword) {
+      // Incrementa as tentativas no cache e define o tempo de expiração
+      await getOrSetCache(cacheKey, async () => {
+        return attempts + 1;
+      });
+
       return new Response(
         JSON.stringify({ error: "Senha inválida" }),
         { status: 401, headers: { "Content-Type": "application/json" } },
@@ -67,6 +91,11 @@ export async function POST(req: Request) {
       "Set-Cookie",
       `internal_user_id=${user.id}; Secure; Path=/; Max-Age=3600`,
     );
+
+    // Limpa as tentativas de login ao sucesso
+    await getOrSetCache(cacheKey, async () => {
+      return 0; // Resetar as tentativas de login após sucesso
+    });
 
     return new Response(
       JSON.stringify({ token, tipo_usuario: user.tipo_usuario, internal_user_id: user.id }),

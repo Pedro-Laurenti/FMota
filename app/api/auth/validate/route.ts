@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import { getCache } from "@/config/cache";  // Importando a função de cache
 
 export async function POST(req: Request) {
   const cookies = req.headers.get("cookie");
@@ -17,7 +18,18 @@ export async function POST(req: Request) {
   }
 
   try {
+    // Verifica se o token está na blacklist (no cache)
+    const isTokenBlacklisted = await getCache(`blacklist_${token}`);
+    if (isTokenBlacklisted) {
+      return new Response(
+        JSON.stringify({ error: "Token revogado" }),
+        { status: 401, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
+    // Verifica e decodifica o token JWT
     const payload = jwt.verify(token, secretKey) as { tipo_usuario: string };
+    
     return new Response(
       JSON.stringify({ tipo_usuario: payload.tipo_usuario }),
       { status: 200, headers: { "Content-Type": "application/json" } },

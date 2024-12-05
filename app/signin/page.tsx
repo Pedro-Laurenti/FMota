@@ -10,6 +10,7 @@ import {
   Link,
   Divider,
   Input,
+  Spinner,
 } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
@@ -150,7 +151,7 @@ export default function SigninPage() {
               type={isVisible ? "text" : "password"}
             />
             <Button type="submit" disabled={loading} color="primary" fullWidth>
-              {loading ? "Carregando..." : "Entrar"}
+              {loading ? <Spinner /> : "Entrar"}
             </Button>
             <div className="text-sm text-gray-600 text-center flex flex-col items-center">
               <Link color="primary" href="/signin/recovery" className="text-sm">

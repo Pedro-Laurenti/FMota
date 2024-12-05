@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
-import createConnection from "@/config/connection";
+import getConnection from "@/config/connection";
+import { setCache, getCache } from "@/config/cache"; // Funções de cache para IndexedDB ou alternativas
 
 export async function GET(req: Request) {
   const cookies = req.headers.get("cookie") || "";
@@ -21,11 +22,22 @@ export async function GET(req: Request) {
     // Verifica o token JWT
     const decoded: any = jwt.verify(authToken, secretKey);
 
-    // Busca informações do usuário no banco
-    const connection = await createConnection();
+    // Verifica se os dados do usuário estão no cache
+    const cachedUser = await getCache(`user:${decoded.id}`);
+    if (cachedUser) {
+      console.log("Usuário encontrado no cache");
+      return new Response(cachedUser, {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Se não estiver no cache, busca no banco de dados
+    console.log("Usuário não encontrado no cache, consultando o banco...");
+    const connection = await getConnection();
     const [rows]: any = await connection.execute(
       `SELECT id, nome, email, tipo_usuario, stripe_customer_id FROM usuarios WHERE id = ?`,
-      [decoded.id],
+      [decoded.id]
     );
 
     if (!Array.isArray(rows) || rows.length === 0) {
@@ -37,7 +49,9 @@ export async function GET(req: Request) {
 
     const [user] = rows;
 
-    // Retorna as informações do usuário
+    // Armazena os dados do usuário no cache por 10 minutos
+    await setCache(`user:${decoded.id}`, JSON.stringify(user)); // Cache expirando em 10 minutos
+
     return new Response(JSON.stringify(user), {
       status: 200,
       headers: { "Content-Type": "application/json" },

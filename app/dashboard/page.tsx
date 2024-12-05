@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Link from "next/link";
-import { Card, CardHeader, CardFooter, Divider } from "@nextui-org/react";
+import { Card, CardHeader, CardFooter, Divider, Spinner } from "@nextui-org/react";
 import { IoCalendar, IoCamera, IoDocument } from "react-icons/io5";
 import Countdown from "@/components/Countdown";
 
@@ -51,7 +51,7 @@ export default function Dashboard() {
   };
 
   if (loading) {
-    return <p>Carregando módulos...</p>;
+    return <Spinner />;
   }
 
   if (!isCountdownComplete) {
