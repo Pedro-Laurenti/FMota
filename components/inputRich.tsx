@@ -13,13 +13,16 @@ interface SimpleRichTextEditorProps {
   onChange: (html: string) => void;
   placeholder?: string;
   title?: string;
+  isDisabled?: boolean; // New prop
 }
+
 
 export default function SimpleRichTextEditor({
   value,
   onChange,
   placeholder,
   title,
+  isDisabled = false, // Default value
 }: SimpleRichTextEditorProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHtmlMode, setIsHtmlMode] = useState(false); // Estado para alternar o modo HTML
@@ -74,6 +77,17 @@ export default function SimpleRichTextEditor({
       editor.commands.setContent(html);
     }
   };
+
+
+  if (isDisabled) {
+    return (
+      <div
+        className="prose prose-sm sm:prose lg:prose-lg prose-neutral prose-headings:text-primary prose-a:text-primary prose-strong:text-secondary-foreground text-primary dark:border-gray-700 border-gray-300 rounded-xl w-full min-h-[400px] max-h-[600px] overflow-y-auto p-3 border"
+        dangerouslySetInnerHTML={{ __html: value }}
+      />
+    );
+  }
+
 
   return (
     <div className="mb-4">

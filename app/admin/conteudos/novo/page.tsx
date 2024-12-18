@@ -17,7 +17,6 @@ import {
   ModalContent,
   ModalHeader,
 } from "@nextui-org/react";
-import ReactQuill from "react-quill"; // Importando React Quill
 import "react-quill/dist/quill.snow.css"; // Estilos para o editor
 import { useRouter } from "next/navigation";
 import SimpleRichTextEditor from "@/components/inputRich";
