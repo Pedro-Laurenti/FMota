@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Link from "next/link";
 import { Card, CardHeader, CardFooter, Divider, Spinner } from "@nextui-org/react";
-import { IoCalendar, IoCamera, IoDocument } from "react-icons/io5";
+import { IoCalendar, IoCamera, IoDocument, IoText } from "react-icons/io5";
 import Countdown from "@/components/Countdown";
 
 interface Module {
@@ -14,7 +14,7 @@ interface Module {
     id: number;
     title: string;
     description: string;
-    type: "archive" | "schedule" | "record"; // Tipo do conteúdo
+    type: "archive" | "text" | "record"; // Tipo do conteúdo
   }[];
 }
 
@@ -78,12 +78,12 @@ export default function Dashboard() {
     ],
   };
 
-  const getIcon = (type: "archive" | "schedule" | "record") => {
+  const getIcon = (type: "archive" | "text" | "record") => {
     switch (type) {
       case "archive":
         return <IoDocument className="w-6 h-6 text-default" />;
-      case "schedule":
-        return <IoCalendar className="w-6 h-6 text-default" />;
+      case "text":
+        return <IoText className="w-6 h-6 text-default" />;
       case "record":
         return <IoCamera className="w-6 h-6 text-default" />;
       default:
@@ -105,7 +105,7 @@ export default function Dashboard() {
                 <Card key={content.id} className="max-w-[400px]">
                   <Link href={contentLink} passHref>
                     <CardHeader className="flex gap-3">
-                      {getIcon(content.type)} {/* Adicionando o ícone dependendo do tipo */}
+                      {getIcon(content.type)}
                       <span>{content.title}</span>
                     </CardHeader>
                     <Divider />

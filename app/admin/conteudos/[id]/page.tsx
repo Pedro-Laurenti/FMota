@@ -47,7 +47,6 @@ export default function ConteudoDetalhes() {
           console.error("Erro ao carregar dados do conteúdo:", error);
           setIsLoading(false);
         });
-        console.log(conteudoData)
     }
   }, [id]);
 
@@ -178,14 +177,17 @@ export default function ConteudoDetalhes() {
               {/* SelectBox para Módulo */}
               <Select
                 label="Selecione o Módulo"
-                value={conteudoData?.module_id?.toString() || ""} // Certifique-se de que é uma string
-                onChange={(key) =>
-                  setConteudoData({ ...conteudoData, module_id: key })
-                }
+                selectedKeys={conteudoData?.module_id ? [conteudoData.module_id.toString()] : []}
+                onSelectionChange={(keys) => {
+                  const selectedKey = Array.from(keys)[0];
+                  setConteudoData({ 
+                    ...conteudoData, 
+                    module_id: selectedKey ? Number(selectedKey) : null 
+                  });
+                }}
                 isDisabled={!isEditable}
                 className="mb-4"
                 required
-                selectedKeys={[conteudoData?.module_id?.toString() || ""]}
               >
                 {modules.map((module: any) => (
                   <SelectItem key={module.id.toString()} value={module.id.toString()}>
@@ -196,26 +198,28 @@ export default function ConteudoDetalhes() {
 
               <Select
                 label="Tipo do Conteúdo"
-                value={conteudoData?.type || ""}
-                onChange={(key) =>
-                  setConteudoData({ ...conteudoData, type: key })
-                }
+                selectedKeys={conteudoData?.type ? [conteudoData.type] : []}
+                onSelectionChange={(keys) => {
+                  const selectedKey = Array.from(keys)[0];
+                  setConteudoData({ 
+                    ...conteudoData, 
+                    type: selectedKey ? selectedKey.toString() : '' 
+                  });
+                }}
                 isDisabled={!isEditable}
                 className="mb-4"
-                selectedKeys={[conteudoData?.type || ""]}
                 required
               >
-                <SelectItem value="video" key="video">
+                <SelectItem key="record" value="record">
                   Vídeo
                 </SelectItem>
-                <SelectItem value="archive" key="archive">
+                <SelectItem key="archive" value="archive">
                   Arquivo
                 </SelectItem>
-                <SelectItem value="texto" key="text">
+                <SelectItem key="text" value="text">
                   Texto
                 </SelectItem>
               </Select>
-
 
               {isEditable ? (
                 <Button type="submit" color="primary" className="mt-4 w-full">
