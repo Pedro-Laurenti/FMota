@@ -86,7 +86,7 @@ export default function NovoModulo() {
           <ModalFooter>
             <Button
               color="primary"
-              onClick={() => {
+              onPress={() => {
                 setIsSuccessModalOpen(false);
                 router.push("/admin/modulos");
               }}

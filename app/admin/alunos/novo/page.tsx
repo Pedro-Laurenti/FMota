@@ -169,7 +169,7 @@ export default function NovoAluno() {
           <ModalFooter>
             <Button
               color="primary"
-              onClick={() => {
+              onPress={() => {
                 navigator.clipboard.writeText(tokenLink);
                 setIsTokenModalOpen(false);
                 router.push("/admin/alunos");

@@ -149,7 +149,7 @@ export default function ModuloDetalhes() {
             <p>O módulo foi atualizado com sucesso!</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={handleCloseSuccessModal}>
+            <Button color="primary" onPress={handleCloseSuccessModal}>
               Voltar para a lista
             </Button>
           </ModalFooter>

@@ -184,7 +184,7 @@ export default function NovoConteudo() {
           <ModalFooter>
             <Button
               color="primary"
-              onClick={() => {
+              onPress={() => {
                 setIsSuccessModalOpen(false);
                 router.push("/admin/conteudos");
               }}

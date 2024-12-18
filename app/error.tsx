@@ -22,7 +22,7 @@ export default function Error({
       <p className="text-lg mb-2">Ocorreu um erro ao carregar o conteúdo.</p>
 			<Button
         color="warning"
-				onClick={
+				onPress={
 					// Attempt to recover by trying to re-render the segment
 					() => reset()
 				}

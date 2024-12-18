@@ -80,7 +80,7 @@ export default function StripePayment({ priceId, price }: { priceId: string; pri
         )}
       </div>
       <div>
-        <Button className="w-full" color="primary" isLoading={loading} disabled={loading} onClick={handlePayment}>
+        <Button className="w-full" color="primary" isLoading={loading} disabled={loading} onPress={handlePayment}>
           {price}
         </Button>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}

@@ -111,7 +111,7 @@ export const NavbarCheckout = () => {
             className="hover:cursor-pointer"
             key="logout"
             color="danger"
-            onClick={handleExit}
+            onPress={handleExit}
           >
             <IoLogOut className="text-2xl mr-2" />
           </Link>
@@ -131,7 +131,7 @@ export const NavbarCheckout = () => {
                 className="hover:cursor-pointer"
                 key="logout"
                 color="danger"
-                onClick={handleExit}
+                onPress={handleExit}
               >
                 <IoLogOut className="text-2xl mr-2" /> Sair
               </Link>
@@ -227,7 +227,7 @@ export const NavbarDash = () => {
               <p className="font-bold">{user ? user.email : "Carregando..."}</p>
             </DropdownItem>
             <DropdownItem key="settings">Minha conta</DropdownItem>
-            <DropdownItem key="logout" color="danger" selectedIcon={<IoLogOut />} onClick={handleExit}>
+            <DropdownItem key="logout" color="danger" selectedIcon={<IoLogOut />} onPress={handleExit}>
               <p className="text-danger">
                 Sair
               </p>
@@ -353,7 +353,7 @@ export const NavbarAdmin = () => {
                   <Button isIconOnly size="sm" variant="light">
                     <ThemeSwitch />
                   </Button>
-                  <Button onClick={handleExit} isIconOnly size="sm" variant="light">
+                  <Button onPress={handleExit} isIconOnly size="sm" variant="light">
                     <MdOutlineExitToApp className="text-xl text-danger" />
                   </Button>
                 </div>

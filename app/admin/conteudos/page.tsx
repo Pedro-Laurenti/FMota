@@ -122,10 +122,10 @@ export default function ContentTable() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view" onClick={() => handleViewDetails(content.id)}>
+                <DropdownItem key="view" onPress={() => handleViewDetails(content.id)}>
                   Detalhes
                 </DropdownItem>
-                <DropdownItem key="delete" color="danger" onClick={() => handleDelete(content.id)}>
+                <DropdownItem key="delete" color="danger" onPress={() => handleDelete(content.id)}>
                   Excluir
                 </DropdownItem>
               </DropdownMenu>
@@ -189,8 +189,8 @@ export default function ContentTable() {
           <ModalHeader>Confirmação de Exclusão</ModalHeader>
           <ModalBody>Tem certeza que deseja excluir este módulo?</ModalBody>
           <ModalFooter>
-            <Button onClick={() => setIsDeleteModalOpen(false)}>Cancelar</Button>
-            <Button color="danger" onClick={confirmDelete}>
+            <Button onPress={() => setIsDeleteModalOpen(false)}>Cancelar</Button>
+            <Button color="danger" onPress={confirmDelete}>
               Excluir
             </Button>
           </ModalFooter>

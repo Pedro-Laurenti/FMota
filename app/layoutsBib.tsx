@@ -89,7 +89,7 @@ export function LayoutAdmin({ children }: { children: React.ReactNode }) {
         <Button
           isIconOnly
           className={`absolute md:hidden top-4 right-4 z-10 bg-default-50/50 p-2 rounded-md transition-transform duration-300`}
-          onClick={() => setIsOpen((prev) => !prev)}
+          onPress={() => setIsOpen((prev) => !prev)}
         >
           {isOpen ? <IoMenu className="text-xl" /> : <IoMenu className="rotate-90 text-xl" />}
         </Button>
@@ -106,7 +106,7 @@ export function LayoutAdmin({ children }: { children: React.ReactNode }) {
           <Button
             isIconOnly
             className={`fixed top-4 z-10 bg-default-50/50 p-2 rounded-md transition-transform duration-300`}
-            onClick={() => setIsOpen((prev) => !prev)}
+            onPress={() => setIsOpen((prev) => !prev)}
           >
             {isOpen ? <IoMenu className="text-xl" /> : <IoMenu className="rotate-90 text-xl" />}
           </Button>

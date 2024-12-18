@@ -98,7 +98,7 @@ export default function PasswordRecovery() {
               <p className="text-lg">Sua senha foi redefinida com sucesso.</p>
               <Button
                 color="primary"
-                onClick={() => (window.location.href = "/signin")}
+                onPress={() => (window.location.href = "/signin")}
                 className="mt-4"
               >
                 Ir para o Login
@@ -114,7 +114,7 @@ export default function PasswordRecovery() {
                 fullWidth
               />
               <Button
-                onClick={handleSendToken}
+                onPress={handleSendToken}
                 color="primary"
                 fullWidth
                 disabled={isButtonDisabled || cooldown > 0}
@@ -151,7 +151,7 @@ export default function PasswordRecovery() {
                 fullWidth
               />
               <Button
-                onClick={handleResetPassword}
+                onPress={handleResetPassword}
                 color="primary"
                 fullWidth
                 isLoading={isLoading}  // Indicador de carregamento

@@ -152,16 +152,16 @@ export default function AdvancedTable() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem key="view" onClick={() => handleViewDetails(user.id)}>
+                <DropdownItem key="view" onPress={() => handleViewDetails(user.id)}>
                   Detalhes
                 </DropdownItem>
                 <DropdownItem
                   key="generate-reset-link"
-                  onClick={() => handleGenerateResetLink(user.id)}
+                  onPress={() => handleGenerateResetLink(user.id)}
                 >
                   Gerar Link de Redefinição
                 </DropdownItem>
-                <DropdownItem key="delete" color="danger" onClick={() => handleDelete(user.id)}>
+                <DropdownItem key="delete" color="danger" onPress={() => handleDelete(user.id)}>
                   Excluir
                 </DropdownItem>
               </DropdownMenu>
@@ -229,10 +229,10 @@ export default function AdvancedTable() {
           <ModalHeader>Confirmação de Exclusão</ModalHeader>
           <ModalBody>Tem certeza que deseja excluir este usuário?</ModalBody>
           <ModalFooter>
-            <Button onClick={() => setIsDeleteModalOpen(false)}>
+            <Button onPress={() => setIsDeleteModalOpen(false)}>
               Cancelar
             </Button>
-            <Button color="danger" onClick={confirmDelete}>
+            <Button color="danger" onPress={confirmDelete}>
               Excluir
             </Button>
           </ModalFooter>
@@ -253,7 +253,7 @@ export default function AdvancedTable() {
           <ModalFooter>
             <Button
               color="primary"
-              onClick={() => {
+              onPress={() => {
                 navigator.clipboard.writeText(resetLink); // Copia para a área de transferência
                 setIsResetLinkModalOpen(false); // Fecha o modal
               }}

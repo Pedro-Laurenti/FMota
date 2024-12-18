@@ -28,7 +28,7 @@ export const MenuToggle = ({ onLogout }: { onLogout: () => void }) => {
               className="hover:cursor-pointer"
               key="logout"
               color="danger"
-              onClick={onLogout}
+              onPress={onLogout}
             >
               <IoLogOut className="text-xl mr-2" />
             </Link>

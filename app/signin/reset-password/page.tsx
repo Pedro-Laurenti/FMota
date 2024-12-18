@@ -121,7 +121,7 @@ function ResetPasswordPage() {
             variant="bordered"
             className="mb-4"
           />
-          <Button onClick={handleReset} color="primary" fullWidth>
+          <Button onPress={handleReset} color="primary" fullWidth>
             Redefinir Senha
           </Button>
         </CardBody>
