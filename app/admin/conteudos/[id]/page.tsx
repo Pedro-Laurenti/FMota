@@ -29,7 +29,7 @@ export default function ConteudoDetalhes() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isEditable, setIsEditable] = useState<boolean>(false); // Novo estado para edição
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [modules, setModules] = useState([]); // Estado para armazenar módulos
+  const [modules, setModules] = useState<typeof SelectItem[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -47,23 +47,23 @@ export default function ConteudoDetalhes() {
           console.error("Erro ao carregar dados do conteúdo:", error);
           setIsLoading(false);
         });
+        console.log(conteudoData)
     }
   }, [id]);
 
-    useEffect(() => {
-      const fetchModules = async () => {
-        try {
-          const response = await fetch("/api/admin/modulos");
-          const data = await response.json();
-          setModules(data.results || []); // Armazena os módulos retornados
-        } catch (err) {
-          console.error("Erro ao buscar módulos:", err);
-          console.error("Erro ao carregar os módulos.");
-        }
-      };
-  
-      fetchModules();
-    }, []);
+  useEffect(() => {
+    const fetchModules = async () => {
+      try {
+        const response = await fetch("/api/admin/modulos");
+        const data = await response.json();
+        setModules(data.results || []); // Armazena os módulos retornados como SelectItems
+      } catch (err) {
+        console.error("Erro ao buscar módulos:", err);
+      }
+    };
+
+    fetchModules();
+  }, []);
 
   const handleSave = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -130,14 +130,14 @@ export default function ConteudoDetalhes() {
                 unselectable="on"
                 readOnly
                 label="ID"
-                value={conteudoData.id}
+                value={conteudoData.id ?? ""}
                 className="mb-4"
               />
               <Input
                 fullWidth
                 isDisabled={!isEditable}
                 label="Título"
-                value={conteudoData.title}
+                value={conteudoData.title ?? ""}
                 onChange={(e) => setConteudoData({ ...conteudoData, title: e.target.value })}
                 className="mb-4"
               />
@@ -153,7 +153,7 @@ export default function ConteudoDetalhes() {
                 fullWidth
                 isDisabled={!isEditable}
                 label="URL do Arquivo para Download"
-                value={conteudoData.file_download}
+                value={conteudoData.file_download ?? ""}
                 onChange={(e) => setConteudoData({ ...conteudoData, file_download: e.target.value })}
                 className="mb-4"
               />
@@ -161,7 +161,7 @@ export default function ConteudoDetalhes() {
                 fullWidth
                 isDisabled={!isEditable}
                 label="URL do Vídeo"
-                value={conteudoData.video_url}
+                value={conteudoData.video_url ?? ""}
                 onChange={(e) => setConteudoData({ ...conteudoData, video_url: e.target.value })}
                 className="mb-4"
               />
@@ -178,37 +178,44 @@ export default function ConteudoDetalhes() {
               {/* SelectBox para Módulo */}
               <Select
                 label="Selecione o Módulo"
-                value={conteudoData.module_id}
-                onChange={(e) => setConteudoData({ ...conteudoData, module_id: e.target.value })}
+                value={conteudoData?.module_id?.toString() || ""} // Certifique-se de que é uma string
+                onChange={(key) =>
+                  setConteudoData({ ...conteudoData, module_id: key })
+                }
+                isDisabled={!isEditable}
                 className="mb-4"
                 required
+                selectedKeys={[conteudoData?.module_id?.toString() || ""]}
               >
                 {modules.map((module: any) => (
-                  <SelectItem key={module.id} value={module.id}>
+                  <SelectItem key={module.id.toString()} value={module.id.toString()}>
                     {module.title}
                   </SelectItem>
                 ))}
               </Select>
 
-
               <Select
                 label="Tipo do Conteúdo"
-                value={conteudoData.type}
-                onChange={(e) => setConteudoData({ ...conteudoData, type: e.target.value })}
-                className="mb-4"
-                required
+                value={conteudoData?.type || ""}
+                onChange={(key) =>
+                  setConteudoData({ ...conteudoData, type: key })
+                }
                 isDisabled={!isEditable}
+                className="mb-4"
+                selectedKeys={[conteudoData?.type || ""]}
+                required
               >
-                <SelectItem value="video" key={"1"}>
+                <SelectItem value="video" key="video">
                   Vídeo
                 </SelectItem>
-                <SelectItem value="arquivo" key={"2"}>
+                <SelectItem value="archive" key="archive">
                   Arquivo
                 </SelectItem>
-                <SelectItem value="texto" key={"3"}>
+                <SelectItem value="texto" key="text">
                   Texto
                 </SelectItem>
               </Select>
+
 
               {isEditable ? (
                 <Button type="submit" color="primary" className="mt-4 w-full">
@@ -242,7 +249,7 @@ export default function ConteudoDetalhes() {
             <p>O conteúdo foi atualizado com sucesso!</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={handleCloseSuccessModal}>
+            <Button color="primary" onPress={handleCloseSuccessModal}>
               Voltar para a lista
             </Button>
           </ModalFooter>

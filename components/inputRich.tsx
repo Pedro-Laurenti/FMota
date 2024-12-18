@@ -39,6 +39,7 @@ export default function SimpleRichTextEditor({
         },
       }),
     ],
+    immediatelyRender: false,
     content: value,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
@@ -82,12 +83,12 @@ export default function SimpleRichTextEditor({
   if (isDisabled) {
     return (
       <div
-        className="prose prose-sm sm:prose lg:prose-lg prose-neutral prose-headings:text-primary prose-a:text-primary prose-strong:text-secondary-foreground text-primary dark:border-gray-700 border-gray-300 rounded-xl w-full min-h-[400px] max-h-[600px] overflow-y-auto p-3 border"
+        className="prose prose-sm sm:prose lg:prose-lg prose-neutral prose-headings:text-primary prose-a:text-primary prose-strong:text-secondary-foreground text-primary dark:border-gray-700 border-gray-300 rounded-xl w-full min-h-[400px] max-h-[600px] overflow-y-auto p-3 border mb-4"
+        style={{color: "var(--nextui-color-text)"}}
         dangerouslySetInnerHTML={{ __html: value }}
       />
     );
   }
-
 
   return (
     <div className="mb-4">
@@ -99,28 +100,28 @@ export default function SimpleRichTextEditor({
         <ButtonGroup className="flex">
           <Button
             isIconOnly variant="faded" size="sm"
-            onClick={() => editor?.chain().focus().toggleBold().run()}
+            onPress={() => editor?.chain().focus().toggleBold().run()}
             color={editor?.isActive("bold") ? "primary" : "secondary"}
             >
             <FaBold />
           </Button>
           <Button
             isIconOnly variant="faded" size="sm"
-            onClick={() => editor?.chain().focus().toggleItalic().run()}
+            onPress={() => editor?.chain().focus().toggleItalic().run()}
             color={editor?.isActive("italic") ? "primary" : "secondary"}
             >
             <FaItalic />
           </Button>
           <Button
             isIconOnly variant="faded" size="sm"
-            onClick={() => editor?.chain().focus().toggleStrike().run()}
+            onPress={() => editor?.chain().focus().toggleStrike().run()}
             color={editor?.isActive("strike") ? "primary" : "secondary"}
             >
             <FaStrikethrough />
           </Button>
           <Button
             isIconOnly variant="faded" size="sm"
-            onClick={toggleParagraph}
+            onPress={toggleParagraph}
             color={editor?.isActive("paragraph") ? "primary" : "secondary"}
             >
             <FaParagraph />
@@ -128,20 +129,20 @@ export default function SimpleRichTextEditor({
           <Button
             isIconOnly variant="faded" size="sm"
             color={editor?.isActive("heading", { level: 1 }) ? "primary" : "secondary"}
-            onClick={() => toggleHeading(1)}
+            onPress={() => toggleHeading(1)}
             >
             <MdTitle />
           </Button>
           <Button
             isIconOnly variant="faded" size="sm"
-            onClick={() => setIsModalOpen(true)}
+            onPress={() => setIsModalOpen(true)}
             color="secondary"
             >
             <FaLink />
           </Button>
           <Button
             isIconOnly variant="faded" size="sm"
-            onClick={() => setIsHtmlMode(!isHtmlMode)} // Alterna o modo HTML
+            onPress={() => setIsHtmlMode(!isHtmlMode)} // Alterna o modo HTML
             color={isHtmlMode ? "primary" : "secondary"}
             >
             {isHtmlMode ? <IoText /> : <FaCode />}
@@ -171,10 +172,10 @@ export default function SimpleRichTextEditor({
             />
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={() => setIsModalOpen(false)}>
+            <Button color="danger" onPress={() => setIsModalOpen(false)}>
               Cancelar
             </Button>
-            <Button onClick={applyLink}>Inserir</Button>
+            <Button onPress={applyLink}>Inserir</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
