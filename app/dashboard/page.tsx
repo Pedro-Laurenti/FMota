@@ -81,11 +81,11 @@ export default function Dashboard() {
   const getIcon = (type: "archive" | "schedule" | "record") => {
     switch (type) {
       case "archive":
-        return <IoDocument className="w-6 h-6 text-gray-600" />;
+        return <IoDocument className="w-6 h-6 text-default" />;
       case "schedule":
-        return <IoCalendar className="w-6 h-6 text-gray-600" />;
+        return <IoCalendar className="w-6 h-6 text-default" />;
       case "record":
-        return <IoCamera className="w-6 h-6 text-gray-600" />;
+        return <IoCamera className="w-6 h-6 text-default" />;
       default:
         return null;
     }

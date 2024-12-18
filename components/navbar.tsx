@@ -6,8 +6,8 @@ import {
   NavbarBrand,
   NavbarItem,
   NavbarMenuItem,
-} from "@nextui-org/navbar";
-import { Link } from "@nextui-org/link";
+} from "@nextui-org/react";
+import { Link } from "@nextui-org/react";
 import NextLink from "next/link";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
@@ -348,7 +348,7 @@ export const NavbarAdmin = () => {
                 <p className="font-bold">Logado como</p>
                 <p className="font-bold">{user ? user.email : "Carregando..."}</p>
               </DropdownItem>
-              <DropdownItem isReadOnly>
+              <DropdownItem key={"theme"} isReadOnly>
                 <div className="flex items-center justify-around">
                   <Button isIconOnly size="sm" variant="light">
                     <ThemeSwitch />

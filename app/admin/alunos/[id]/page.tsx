@@ -152,8 +152,10 @@ export default function UsuarioDetalhes() {
                 isDisabled={!isEditable}
                 value={userData.data_criacao ? convertToCalendarDate(userData.data_criacao) : null}
                 onChange={(newDate) => {
-                  const date = new Date(newDate.year, newDate.month - 1, newDate.day);
-                  setUserData({ ...userData, data_criacao: date.toISOString() });
+                  if (newDate) {
+                    const date = new Date(newDate.year, newDate.month - 1, newDate.day);
+                    setUserData({ ...userData, data_criacao: date.toISOString() });
+                  }
                 }}
                 className="mb-4 max-w-sm"
               />

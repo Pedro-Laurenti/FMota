@@ -2,9 +2,9 @@
 
 import { FC } from "react";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
-import { SwitchProps, useSwitch } from "@nextui-org/switch";
+import { SwitchProps, useSwitch } from "@nextui-org/react";
 import { useTheme } from "next-themes";
-import { useIsSSR } from "@react-aria/ssr";
+import { useIsSSR } from '@react-aria/ssr';
 import clsx from "clsx";
 import { IoMoon, IoSunny } from "react-icons/io5";
 

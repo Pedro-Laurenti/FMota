@@ -52,24 +52,38 @@ export default function ContentPage() {
   return (
     <div className="content-page">
       <Card>
-        <CardHeader>
+        <CardHeader className='flex flex-col items-start'>
           <h2 className="text-xl font-semibold">{content.title}</h2>
+          <p className='text-xs text-default-500'>{content.description}</p>
         </CardHeader>
         <Divider />
         <CardBody>
-          <p>{content.description}</p>
+
           {content.rich_text && (
-            <div dangerouslySetInnerHTML={{ __html: content.rich_text }} />
+            <div className='prose prose-sm sm:prose lg:prose-lg prose-neutral prose-headings:text-primary prose-a:text-primary prose-strong:text-secondary-foreground focus:outline-none text-primary' style={{ color: 'var(--nextui-color-text)' }} dangerouslySetInnerHTML={{ __html: content.rich_text }} />
           )}
           {content.video_url && content.video_url.trim() !== '' && (
             <div className="video-container">
-              <video controls width="100%">
-                <source src={content.video_url} type="video/mp4" />
-                Seu navegador não suporta o formato de vídeo.
-                <track kind="captions" />
-              </video>
+              {content.video_url.includes("youtube.com") ? (
+                <iframe
+                  width="100%"
+                  height="315"
+                  src={`${content.video_url.includes('?') ? content.video_url + '&rel=0' : content.video_url + '?rel=0'}`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <video controls width="100%">
+                  <source src={content.video_url} type="video/mp4" />
+                  Seu navegador não suporta o formato de vídeo.
+                  <track kind="captions" />
+                </video>
+              )}
             </div>
           )}
+
           {content.file_download && content.file_download.trim() !== '' && (
             <div className="file-download">
               <a href={content.file_download} download>
@@ -78,11 +92,6 @@ export default function ContentPage() {
             </div>
           )}
         </CardBody>
-        <CardFooter>
-          <button onClick={() => alert('Ação de interação com o conteúdo')}>
-            Interagir com o conteúdo
-          </button>
-        </CardFooter>
       </Card>
     </div>
   );
