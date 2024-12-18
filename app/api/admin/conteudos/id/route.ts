@@ -7,8 +7,6 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const contentId = searchParams.get("id");
 
-  console.log("contentId recebido:", contentId);  // Verifique o valor do contentId
-
   if (!contentId) {
     return new Response("Parâmetro 'id' inválido", { status: 400 });
   }
@@ -18,14 +16,11 @@ export async function GET(req: NextRequest) {
     const cachedContent = await getCache(cacheKey);
 
     if (cachedContent) {
-      console.log(`Conteúdo encontrado no cache para id: ${contentId}`);
       return new Response(cachedContent, {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
-
-    console.log("Conectando ao banco de dados...");
     const connection = await getConnection();
 
     const [rows]: any = await connection.execute(
@@ -33,8 +28,6 @@ export async function GET(req: NextRequest) {
        FROM contents WHERE id = ?`,
       [contentId]
     );
-
-    console.log("Dados do banco:", rows);  // Verifique os dados retornados do banco
 
     if (rows.length === 0) {
       return new Response("Conteúdo não encontrado", { status: 404 });

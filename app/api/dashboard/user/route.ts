@@ -25,7 +25,6 @@ export async function GET(req: Request) {
     // Verifica se os dados do usuário estão no cache
     const cachedUser = await getCache(`user:${decoded.id}`);
     if (cachedUser) {
-      console.log("Usuário encontrado no cache");
       return new Response(cachedUser, {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -33,7 +32,6 @@ export async function GET(req: Request) {
     }
 
     // Se não estiver no cache, busca no banco de dados
-    console.log("Usuário não encontrado no cache, consultando o banco...");
     const connection = await getConnection();
     const [rows]: any = await connection.execute(
       `SELECT id, nome, email, tipo_usuario, stripe_customer_id FROM usuarios WHERE id = ?`,

@@ -5,9 +5,6 @@ import { setCache, getCache, deleteCache } from "@/config/cache"; // Funções d
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-
-  console.log("userId recebido:", userId);  // Verifique o valor do userId
-
   if (!userId) {
     return new Response("Parâmetro 'userId' inválido", { status: 400 });
   }
@@ -17,14 +14,12 @@ export async function GET(req: NextRequest) {
     const cachedUser = await getCache(cacheKey);
 
     if (cachedUser) {
-      console.log(`Usuário encontrado no cache para userId: ${userId}`);
       return new Response(cachedUser, {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    console.log("Conectando ao banco de dados...");
     const connection = await getConnection();
 
     const [rows]: any = await connection.execute(
@@ -33,8 +28,6 @@ export async function GET(req: NextRequest) {
        WHERE id = ?`,
       [userId]
     );
-
-    console.log("Dados do banco:", rows);  // Verifique os dados retornados do banco
 
     if (rows.length === 0) {
       return new Response("Usuário não encontrado", { status: 404 });

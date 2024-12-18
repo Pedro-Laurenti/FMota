@@ -17,7 +17,6 @@ export async function GET(req: NextRequest) {
     const cachedContent = await getCache(cacheKey);
 
     if (cachedContent) {
-      console.log(`Conteúdo encontrado no cache para moduleId: ${moduleId}, contentId: ${contentId}`);
       return new Response(cachedContent, {
         status: 200,
         headers: { "Content-Type": "application/json" },

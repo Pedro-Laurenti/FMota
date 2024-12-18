@@ -76,7 +76,6 @@ export default function Checkout() {
       if (!response.ok) {
         throw new Error(data.error || "Erro ao processar sucesso de pagamento.");
       }
-      console.log("Pagamento confirmado e status atualizado");
     } catch (error) {
       console.error("Erro ao confirmar pagamento:", error);
     }

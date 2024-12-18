@@ -33,12 +33,10 @@ export const getOrSetCache = async (key: string, fetchData: () => Promise<any>) 
     // Verifica se os dados estão no cache
     const cachedData = getCache(key);
     if (cachedData) {
-      console.log("Dados encontrados no cache");
       return cachedData;
     }
 
     // Se não estiver no cache, executa a função para buscar os dados
-    console.log("Dados não encontrados no cache, consultando o banco...");
     const freshData = await fetchData();
 
     // Armazena os dados no cache

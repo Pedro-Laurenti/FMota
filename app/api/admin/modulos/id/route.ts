@@ -7,8 +7,6 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const moduleId = searchParams.get("id");
 
-  console.log("moduleId recebido:", moduleId);  // Verifique o valor do moduleId
-
   if (!moduleId) {
     return new Response("Parâmetro 'id' inválido", { status: 400 });
   }
@@ -18,22 +16,18 @@ export async function GET(req: NextRequest) {
     const cachedModule = await getCache(cacheKey);
 
     if (cachedModule) {
-      console.log(`Módulo encontrado no cache para id: ${moduleId}`);
       return new Response(cachedModule, {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
 
-    console.log("Conectando ao banco de dados...");
     const connection = await getConnection();
 
     const [rows]: any = await connection.execute(
       `SELECT id, title FROM modules WHERE id = ?`,
       [moduleId]
     );
-
-    console.log("Dados do banco:", rows);  // Verifique os dados retornados do banco
 
     if (rows.length === 0) {
       return new Response("Módulo não encontrado", { status: 404 });

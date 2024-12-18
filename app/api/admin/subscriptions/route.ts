@@ -10,7 +10,6 @@ export async function GET() {
     // Chama a função global para pegar ou armazenar o cache
     const response = await getOrSetCache(cacheKey, async () => {
       // Caso não esteja no cache, consulta o banco de dados
-      console.log("Dados não encontrados no cache, consultando o banco...");
       const connection = await getConnection();
       const [rows]: any = await connection.execute(`
         SELECT 

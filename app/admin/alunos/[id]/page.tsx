@@ -21,7 +21,6 @@ export default function UsuarioDetalhes() {
       fetch(`/api/admin/users/id?userId=${id}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("Dados do usuário:", data);
           if (data) {
             setUserData(data);
             setSelectedTipoUsuario(data.tipo_usuario || "pendente");
@@ -57,7 +56,6 @@ export default function UsuarioDetalhes() {
   
       if (response.ok) {
         const data = await response.json();
-        console.log("Dados atualizados:", data);
         router.push("/admin/alunos");
       } else {
         const errorData = await response.json();
