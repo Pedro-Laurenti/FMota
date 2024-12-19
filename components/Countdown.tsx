@@ -2,7 +2,7 @@ import { Link } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import { IoLogoWhatsapp } from "react-icons/io5";
 
-const releaseDate = new Date(Date.UTC(2024, 11, 1)); // Data de lançamento
+const releaseDate = new Date(Date.UTC(2024, 11, 29)); // Data de lançamento
 
 interface CountdownProps {
   releaseTime: number;
