@@ -166,6 +166,10 @@ export const NavbarDash = () => {
     }
   };
 
+  const handleMinhaConta = async () => {
+    window.location.href = "/dashboard/account"; // Redireciona para a página inicial
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -226,7 +230,7 @@ export const NavbarDash = () => {
               <p className="font-bold">Logado como</p>
               <p className="font-bold">{user ? user.email : "Carregando..."}</p>
             </DropdownItem>
-            <DropdownItem key="settings">Minha conta</DropdownItem>
+            <DropdownItem key="settings" onPress={handleMinhaConta}>Minha conta</DropdownItem>
             <DropdownItem key="logout" color="danger" selectedIcon={<IoLogOut />} onPress={handleExit}>
               <p className="text-danger">
                 Sair
@@ -253,7 +257,16 @@ export const NavbarDash = () => {
               color="foreground"
               href="/dashboard/sobre"
             >
-              sobre a mentoria
+              Sobre a mentoria
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem key="3">
+            <Link
+              className="transition-all hover:text-primary"
+              color="foreground"
+              href="/dashboard/account"
+            >
+              Minha conta
             </Link>
           </NavbarMenuItem>
         </div>
